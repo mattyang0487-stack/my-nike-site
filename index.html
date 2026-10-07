@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nike 官方網站 (風格復刻版)</title>
+    
+    <style>
+        /* ==========================================================================
+           【自訂修改教學指南】
+           
+           1. 修改主色調與背景顏色：
+              請在下面的 :root 區塊中修改 CSS 變數：
+              --bg-primary: 主要背景色 (例如: #ffffff)
+              --text-primary: 主要文字顏色 (例如: #111111)
+              --accent-color: 強調顏色/按鈕懸停色 (例如: #707070)
+              --bg-secondary: 次要背景色，如頂部選單 (例如: #f5f5f5)
+
+           2. 修改區塊間距與邊距 (Spacing & Padding)：
+              --section-margin: 每個大區塊之間的上下間距 (預設 60px，可改為 40px 或 80px)
+              --container-padding: 頁面左右內邊距 (預設 48px，手機版會自動調整)
+
+           3. 修改標題內容與文字：
+              請直接搜尋 HTML 中 <h1>, <h2>, <h3> 標籤與 <p> 內容進行修改。
+           ========================================================================== */
+
+        :root {
+            /* 主色調設定 (Nike 經典黑白極簡風) */
+            --bg-primary: #ffffff;
+            --text-primary: #111111;
+            --text-secondary: #757575;
+            --bg-secondary: #f5f5f5;
+            --border-color: #e5e5e5;
+            --btn-black: #111111;
+            --btn-white: #ffffff;
+
+            /* 間距變數 */
+            --section-margin: 60px;
+            --container-padding: 48px;
+            --header-height: 60px;
+            --top-bar-height: 36px;
+        }
+
+        /* 全局重置樣式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif, "PingFang TC", "Microsoft JhengHei";
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* 1. 頂部小導覽列 (Top Bar) */
+        .top-bar {
+            background-color: var(--bg-secondary);
+            height: var(--top-bar-height);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 var(--container-padding);
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .top-bar-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .top-bar-brand svg {
+            width: 20px;
+            height: 20px;
+            fill: #111;
+        }
+
+        .top-bar-links {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .top-bar-links a:hover {
+            color: var(--text-secondary);
+        }
+
+        /* 2. 主導覽列 (Main Navbar) */
+        .navbar {
+            height: var(--header-height);
+            background-color: var(--bg-primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 var(--container-padding);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .navbar-logo svg {
+            width: 60px;
+            height: 60px;
+            fill: var(--text-primary);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 24px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .nav-menu li a {
+            padding: 18px 0;
+            display: inline-block;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .nav-menu li a:hover {
+            border-bottom: 2px solid var(--text-primary);
+        }
+
+        /* 導覽列右側圖示區 */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-secondary);
+            border-radius: 100px;
+            padding: 6px 12px;
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            padding-left: 8px;
+            font-size: 14px;
+            width: 120px;
+            transition: width 0.3s ease;
+        }
+
+        .search-box input:focus {
+            width: 170px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-btn:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .icon-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: var(--text-primary);
+            stroke-width: 2;
+        }
+
+        /* 3. 跑馬燈/公告條 (Announcement Banner) */
+        .announcement-bar {
+            background-color: var(--bg-secondary);
+            text-align: center;
+            padding: 10px 16px;
+            font-size: 13px;
+        }
+
+        .announcement-bar a {
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        /* 4. Hero Banner (主視覺區塊) */
+        .hero-section {
+            margin-bottom: var(--section-margin);
+            padding: 0 var(--container-padding);
+        }
+
+        .hero-media {
+            width: 100%;
+            height: 70vh;
+            min-height: 400px;
+            max-height: 700px;
+            background-color: #e1e1e1;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .hero-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-content {
+            text-align: center;
+            margin-top: 32px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-subtitle {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .hero-title {
+            font-size: clamp(36px, 8vw, 72px);
+            font-weight: 900;
+            line-height: 0.95;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .hero-description {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* 按鈕基本樣式 */
+        .btn {
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--btn-black);
+            color: var(--btn-white);
+        }
+
+        .btn-primary:hover {
+            opacity: 0.75;
+        }
+
+        .btn-secondary {
+            background-color: var(--btn-white);
+            color: var(--btn-black);
+            border-color: #ccc;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--btn-black);
+        }
+
+        /* 5. 熱門商品輪播/網格區塊 (Product Section) */
+        .section-container {
+            padding: 0 var(--container-padding);
+            margin-bottom: var(--section-margin);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        /* 商品卡片網格 (Flex / Grid) */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .product-card:hover {
+            opacity: 0.95;
+        }
+
+        .product-image-box {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background-color: var(--bg-secondary);
+            margin-bottom: 12px;
+            overflow: hidden;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .product-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .product-image-box img {
+            transform: scale(1.03);
+        }
+
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .product-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .product-category {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .product-price {
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: 8px;
+        }
+
+        /* 6. 精選類別雙圖區塊 (Featured Collection) */
+        .featured-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .featured-item {
+            position: relative;
+            height: 500px;
+            background-color: #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            padding: 40px;
+        }
+
+        .featured-item img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .featured-overlay {
+            position: relative;
+            z-index: 2;
+            color: white;
+        }
+
+        .featured-overlay h3 {
+            font-size: 24px;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* 7. 頁尾 Footer */
+        .footer {
+            background-color: #111111;
+            color: #ffffff;
+            padding: 60px var(--container-padding) 30px;
+            font-size: 12px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h4 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: #7e7e7e;
+            transition: color 0.2s;
+        }
+
+        .footer-col ul li a:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #222;
+            padding-top: 24px;
+            color: #7e7e7e;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        /* 8. 設定說明面板 (自訂導覽備註區塊) */
+        .custom-guide-box {
+            background-color: #eef6ff;
+            border: 1px solid #b6d4fe;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 40px var(--container-padding);
+            font-size: 14px;
+            color: #084298;
+        }
+
+        .custom-guide-box h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .custom-guide-box ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        /* 9. 響應式切換 (Media Queries for Mobile) */
+        @media (max-width: 960px) {
+            :root {
+                --container-padding: 24px;
+            }
+
+            .nav-menu {
+                display: none; /* 手機版簡化，隱藏主選單 */
+            }
+
+            .featured-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-item {
+                height: 380px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            :root {
+                --container-padding: 16px;
+                --section-margin: 40px;
+            }
+
+            .top-bar {
+                display: none; /* 極小螢幕隱藏頂部欄 */
+            }
+
+            .hero-media {
+                height: 45vh;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頂部訊息與會員選單 -->
+    <div class="top-bar">
+        <div class="top-bar-brand">
+            <!-- Jordan SVG Icon -->
+            <svg viewBox="0 0 24 24"><path d="M12 2L10.5 8.5L4 10L9.5 14L8 20.5L13.5 16.5L18.5 20.5L16.5 14L21.5 10L15 8.5L12 2Z"/></svg>
+            <span>Jordan</span>
+        </div>
+        <div class="top-bar-links">
+            <a href="#">尋找門市</a> |
+            <a href="#">說明</a> |
+            <a href="#">加入我們</a> |
+            <a href="#">登入</a>
+        </div>
+    </div>
+
+    <!-- 主導覽列 -->
+    <header class="navbar">
+        <!-- Nike Logo (SVG 圖示) -->
+        <a href="#" class="navbar-logo" aria-label="Nike 主頁">
+            <svg viewBox="0 0 24 24">
+                <path d="M21.71 8.71c-.28-.28-.72-.34-1.07-.15l-13.5 7.5c-2.31 1.28-4.88 1.94-7.5 1.94-.38 0-.77-.02-1.15-.06-.55-.06-.99.35-1.05.9-.06.55.35.99.9 1.05.43.05.86.07 1.3.07 2.92 0 5.78-.74 8.36-2.17l13.5-7.5c.42-.23.57-.76.34-1.18-.08-.15-.2-.28-.34-.38z"/>
+                <path d="M9.41 15.59L21.71 8.71c.38-.21.52-.69.31-1.07-.21-.38-.69-.52-1.07-.31L8.65 14.21c-2.02 1.12-4.27 1.7-6.56 1.7-.38 0-.76-.02-1.14-.06-.55-.06-.99.35-1.05.9-.06.55.35.99.9 1.05.43.05.86.07 1.29.07 2.61 0 5.17-.66 7.46-1.93z" opacity="0.1"/>
+                <path d="M21.71 8.71c-.38-.21-.86-.07-1.07.31L8.65 14.21c-2.02 1.12-4.27 1.7-6.56 1.7-.38 0-.76-.02-1.14-.06-.55-.06-.99.35-1.05.9-.06.55.35.99.9 1.05.43.05.86.07 1.29.07 2.61 0 5.17-.66 7.46-1.93l12.3-6.88c.38-.21.52-.69.31-1.07-.08-.15-.2-.28-.34-.38z"/>
+                <path d="M21.71 8.71L3.5 18.5C2.4 19.1 1.2 19.3 0 19.2c1.8.3 3.7.1 5.5-.6l16.2-9c.6-.3.8-1.1.5-1.7-.2-.5-.8-.8-1.4-.5z"/>
+            </svg>
+        </a>
+
+        <!-- 主選單連結 (修改選單內容由此處) -->
+        <ul class="nav-menu">
+            <li><a href="#">最新消息</a></li>
+            <li><a href="#">男款</a></li>
+            <li><a href="#">女款</a></li>
+            <li><a href="#">兒童款</a></li>
+            <li><a href="#">特惠商品</a></li>
+        </ul>
+
+        <!-- 圖示按鈕 (搜尋/收藏/購物車) -->
+        <div class="nav-actions">
+            <div class="search-box">
+                <button class="icon-btn" aria-label="搜尋">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </button>
+                <input type="text" placeholder="搜尋">
+            </div>
+            <button class="icon-btn" aria-label="心願單">
+                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+            <button class="icon-btn" aria-label="購物車">
+                <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- 公告條 -->
+    <div class="announcement-bar">
+        <span>全館滿額即享免運費優惠。 <a href="#">了解詳情</a></span>
+    </div>
+
+    <!-- Hero Banner (主要視覺區) -->
+    <section class="hero-section">
+        <div class="hero-media">
+            <!-- 採用 Unsplash 開放圖片作為高質感替代圖檔 -->
+            <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=1600&q=80" alt="Nike Air Max 主視覺">
+        </div>
+        <div class="hero-content">
+            <p class="hero-subtitle">剛好登場</p>
+            <!-- 標題文字可在此自由修改 -->
+            <h1 class="hero-title">JUST DO IT.</h1>
+            <p class="hero-description">突破你的極限，探索最新的跑步科技與鞋款系列，為你的運動旅程注入強勁動力。</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn btn-primary">選購新登場商品</a>
+                <a href="#" class="btn btn-secondary">瀏覽 Air Max 系列</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 熱門商品展示區 (Featured Products) -->
+    <section class="section-container">
+        <div class="section-header">
+            <h2 class="section-title">熱門鞋款與服飾</h2>
+        </div>
+
+        <div class="product-grid">
+            <!-- 商品卡片 1 -->
+            <div class="product-card">
+                <div class="product-image-box">
+                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80" alt="Nike Air Max 270">
+                </div>
+                <div class="product-info">
+                    <span class="product-name">Nike Air Max 270</span>
+                    <span class="product-category">男款鞋款</span>
+                    <span class="product-price">NT$ 4,500</span>
+                </div>
+            </div>
+
+            <!-- 商品卡片 2 -->
+            <div class="product-card">
+                <div class="product-image-box">
+                    <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=600&q=80" alt="Nike Dunk Low">
+                </div>
+                <div class="product-info">
+                    <span class="product-name">Nike Dunk Low Retro</span>
+                    <span class="product-category">復古休閒鞋</span>
+                    <span class="product-price">NT$ 3,400</span>
+                </div>
+            </div>
+
+            <!-- 商品卡片 3 -->
+            <div class="product-card">
+                <div class="product-image-box">
+                    <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80" alt="Nike Air Force 1">
+                </div>
+                <div class="product-info">
+                    <span class="product-name">Nike Air Force 1 '07</span>
+                    <span class="product-category">經典休閒鞋</span>
+                    <span class="product-price">NT$ 3,600</span>
+                </div>
+            </div>
+
+            <!-- 商品卡片 4 -->
+            <div class="product-card">
+                <div class="product-image-box">
+                    <img src="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=600&q=80" alt="Nike ZoomX Running">
+                </div>
+                <div class="product-info">
+                    <span class="product-name">Nike ZoomX Vaporfly</span>
+                    <span class="product-category">專業競速跑鞋</span>
+                    <span class="product-price">NT$ 7,200</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 精選類別區塊 -->
+    <section class="section-container">
+        <div class="section-header">
+            <h2 class="section-title">經典聚焦</h2>
+        </div>
+        <div class="featured-grid">
+            <div class="featured-item">
+                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f?auto=format&fit=crop&w=800&q=80" alt="跑步裝備">
+                <div class="featured-overlay">
+                    <h3>專業跑步系列</h3>
+                    <a href="#" class="btn btn-secondary">立即選購</a>
+                </div>
+            </div>
+            <div class="featured-item">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80" alt="街頭潮流">
+                <div class="featured-overlay">
+                    <h3>潮流街頭服飾</h3>
+                    <a href="#" class="btn btn-secondary">立即選購</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 頁面開發與修改說明指南區塊 -->
+    <div class="custom-guide-box">
+        <h3>🛠️ 如何修改這個網頁？ (修改指南)</h3>
+        <ul>
+            <li><strong>修改標題內容 (Title & Text)：</strong> 請直接在此 HTML 檔案中搜尋 <code>&lt;h1 class="hero-title"&gt;JUST DO IT.&lt;/h1&gt;</code> 或商品名稱，自由更換文字內容。</li>
+            <li><strong>修改顏色與背景 (Colors)：</strong> 請翻至 CSS 最上方的 <code>:root</code> 區塊，修改 <code>--bg-primary</code> (背景) 或 <code>--btn-black</code> (按鈕顏色) 的 Hex 碼。</li>
+            <li><strong>修改區塊間距 (Spacing)：</strong> 在 <code>:root</code> 調整 <code>--section-margin: 60px;</code> 可增加或縮小各區塊間的距離。</li>
+            <li><strong>替換商品圖片：</strong> 將 <code>&lt;img src="..."&gt;</code> 中的 URL 替換為您自己的圖片網址即可。</li>
+        </ul>
+    </div>
+
+    <!-- 頁尾 -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>尋找門市</h4>
+                <ul>
+                    <li><a href="#">成為 Nike 會員</a></li>
+                    <li><a href="#">電子快訊訂閱</a></li>
+                    <li><a href="#">傳送意見回饋</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>取得協助</h4>
+                <ul>
+                    <li><a href="#">訂單狀態</a></li>
+                    <li><a href="#">出貨與運送</a></li>
+                    <li><a href="#">退貨服務</a></li>
+                    <li><a href="#">付款選項</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>關於 NIKE</h4>
+                <ul>
+                    <li><a href="#">最新消息</a></li>
+                    <li><a href="#">職缺資訊</a></li>
+                    <li><a href="#">投資者</a></li>
+                    <li><a href="#">永續發展</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2026 Nike, Inc. 完整保留一切權利 (風格復刻展示頁面)</div>
+            <div>
+                <a href="#">隱私權政策</a> | <a href="#">銷售條款</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
